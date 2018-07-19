@@ -1,6 +1,7 @@
 var Myapp = angular.module('Myapp',[   
     'ngRoute',
     'ui.bootstrap',
+    'core',
     'main',
 ]).
 config(function($routeProvider, $locationProvider){
@@ -19,5 +20,5 @@ config(function($routeProvider, $locationProvider){
 Myapp.controller('Mycontroller', function($scope, $state){
     console.log('Hello Frist controller');
     $scope.state = $state;
-    console.lot($scope.state);
+    console.log($scope.state);
 });
