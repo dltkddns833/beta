@@ -7,7 +7,7 @@ angular.module('core.daydreamshared', [
     '$rootScope',
     function($rootScope){
         var hello = function(){
-            console.log('hello')
+            console.log('hello shared')
         }
 
 

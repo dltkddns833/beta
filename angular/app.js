@@ -1,8 +1,13 @@
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
+var mysql = require('./mysql');
+
+var config = require('./appconfig')
 
 var app = express();
+
+
 
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(__dirname + '/public'));
