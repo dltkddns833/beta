@@ -1,8 +1,5 @@
-angular.module('main',[
-    'ui.bootstrap',
-]);
-
 angular.module('main', [
+    'ui.bootstrap',
     'core'
 ]).
 component('main',{
@@ -10,14 +7,18 @@ component('main',{
     controller : [
         '$scope', 
         'daydreamshared',
-        function mainController($scope, daydreamshared){
+        'restService',
+        function mainController($scope, daydreamshared, restService){
             var ctrl = this;
             
             ctrl.boinfor = []
 
+            // Init
 
             // funciton
             ctrl.onClickSubmit = function(infor){
+                var req_body = []
+
                 ctrl.boinfor.name = infor.name
                 ctrl.boinfor.phone = infor.phone
                 ctrl.boinfor.mphone = infor.mphone
@@ -34,7 +35,31 @@ component('main',{
                 }
 
                 console.log(ctrl.boinfor)
+                req_body = ctrl.boinfor;
+
+                restService.products.postProductsList({
+                }, {
+                    name : req_body.name,
+                    phone : req_body.phone,
+                    mphone : req_body.mphone,
+                    address : req_body.address,
+                    exnumber : req_body.exnumber,
+                    passwd : req_body.passwd,
+                    comment : req_body.comment
+
+                }).$promise.then(function(response){
+                    console.log('Sucess POST Products in Client');
+                    console.log(response);
+                    ctrl.boinfor = null
+                    alert('Sucess');
+                    location.reload();
+                })
             }
+
+            /*Initialize*/
+            ctrl.$onInit = function () {
+
+            };
 
         }]
 });

@@ -1,20 +1,33 @@
 'use strict';
 
 angular.module('core.daydreamrestApi', [
-    'core',
-    'ngRoute'
+    'ngResource'
 ])
 .factory('restService', [
     '$resource',
     function($resource){
-        var hello = function(){
-            console.log('hello restService')
-        }
 
+        var products = $resource('/api/products', {}, {
+            getProductsList:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/products/new'
+            },
 
-        return {
-            hello: hello 
+            postProductsList:{
+                method: 'POST',
+                url: '/api/v0.1.1/products/insert'
+            },
+
+            deleteProductsList:{
+                method: 'PUT',
+                url: '/api/v0.1.1/products/delete'
+            }
+            
+        });
+
+        return{
+            products: products
         };
-
     }
-])
+]);

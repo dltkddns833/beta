@@ -1,7 +1,9 @@
 var configEnv = {
     mysql : {
         userId : 'root',
-        userPwd : '!paroma0815'
+        userPwd : '!paroma0815',
+        port : 3306,
+        database : 'daydream'
     }
 }
 
