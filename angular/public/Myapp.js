@@ -2,11 +2,13 @@ var Myapp = angular.module('Myapp',[
     'ngRoute',
     'ngResource',
     'ui.bootstrap',
+    'ui.router',
     'core',
 
     // Route
     'main',
-    'list'
+    'list',
+    'deposit'
 ]).
 config(function($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
@@ -20,6 +22,9 @@ config(function($routeProvider, $locationProvider){
     }).
     when('/list',{
         template : '<list></list>'
+    }).
+    when('/deposit',{
+        template : '<deposit></deposit>'
     }).
     otherwise({redirectTo: '/main'});
 });

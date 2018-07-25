@@ -1,5 +1,6 @@
 angular.module('main', [
     'ui.bootstrap',
+    'ui.router',
     'core'
 ]).
 component('main',{
@@ -8,13 +9,15 @@ component('main',{
         '$scope', 
         'daydreamshared',
         'restService',
-        function mainController($scope, daydreamshared, restService){
+        '$window',
+        '$log',
+        function mainController($scope, daydreamshared, restService, $window, $log){
             var ctrl = this;
             
             ctrl.boinfor = []
 
             // Init
-
+            var url = "http://"+ $window.location.host + "#!/deposit"
             // funciton
             ctrl.onClickSubmit = function(infor){
                 var req_body = []
@@ -52,7 +55,10 @@ component('main',{
                     console.log(response);
                     ctrl.boinfor = null
                     alert('Sucess');
-                    location.reload();
+                    // location.reload();
+                    $log.log(url);
+                    $window.location.href = url;
+
                 })
             }
 
