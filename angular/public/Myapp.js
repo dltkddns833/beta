@@ -8,7 +8,8 @@ var Myapp = angular.module('Myapp',[
     // Route
     'main',
     'list',
-    'deposit'
+    'deposit',
+    'verify'
 ]).
 config(function($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
@@ -20,17 +21,19 @@ config(function($routeProvider, $locationProvider){
     when('/main',{
         template : '<main></main>'
     }).
-    when('/list',{
+    when('/list/:userNumber/:userName',{
         template : '<list></list>'
     }).
     when('/deposit',{
         template : '<deposit></deposit>'
     }).
+    when('/verify',{
+        template : '<verify></verify>'
+    }).
     otherwise({redirectTo: '/main'});
 });
 
 Myapp.controller('Mycontroller', function($scope, $state){
-    console.log('Hello Frist controller');
     $scope.state = $state;
     console.log($scope.state);
 });

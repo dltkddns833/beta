@@ -1,13 +1,13 @@
 <div class="">
     <h3>list</h3>
+    <h1>{{$ctrl.user.name}}님의 신청 내역</h1>
     <div class="" ng-repeat="list in $ctrl.list">
-        <p>이름 : {{list.name}}</p>
-        <p>연락처 : {{list.phone}}</p>
         <p>매장 연락처 : {{list.mphone}}</p>
         <p>주소 : {{list.address}}</p>
         <p>체험단 명수 : {{list.exnumber}}</p>
+        <p>체험내역 : {{list.contents}}</p>
         <p>문의 사항 : {{list.comment}}</p>
-        <p>비밀번호 : {{list.passwd}}</p>
+        <p>입금 : {{list.deposit}}</p>
         <button type="submit" ng-click="$ctrl.onClickDeleteButton(list.id)">삭제</button>
         <hr>
     </div>

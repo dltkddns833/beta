@@ -11,7 +11,7 @@ angular.module('core.daydreamrestApi', [
             getProductsList:{
                 method: 'GET',
                 isArray: true,
-                url: '/api/v0.1.1/products/new'
+                url: '/api/v0.1.1/products/getlist'
             },
 
             postProductsList:{
@@ -26,8 +26,22 @@ angular.module('core.daydreamrestApi', [
             
         });
 
+        var user = $resource('/api/user',{}, {
+            getUser:{
+                method: 'GET',
+                isArray: true,
+                url : '/api/v0.1.1/user/getuser'
+            },
+
+            putUser:{
+                method: 'PUT',
+                url : '/api/v0.1.1/user/insertuser'
+            }
+        })
+
         return{
-            products: products
+            products: products,
+            user : user
         };
     }
 ]);

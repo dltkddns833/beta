@@ -8,7 +8,7 @@ component('deposit',{
         '$scope', 
         'daydreamshared',
         'restService',
-        function mainController($scope, daydreamshared, restService){
+        function depositController($scope, daydreamshared, restService){
             var ctrl = this;
             
 

@@ -24,8 +24,8 @@ var version = {
 }
 
 // version 0.1.1
-
 version.v011.use('/products', function(req, res, next){next();}, require('./0.1.1/products'));
+version.v011.use('/user', function(req, res, next){next();}, require('./0.1.1/user'));
 
 
 // api Setting

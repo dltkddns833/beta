@@ -8,7 +8,7 @@ var pool = db.getPool();
 console.log('Product Query')
 
 // GET 요청
-router.get('/new', function(req, res, next){
+router.get('/getlist', function(req, res, next){
     var sqlConnection;
 
     var res_data;
@@ -16,6 +16,9 @@ router.get('/new', function(req, res, next){
     var err_data = {
         reason: null
     };
+
+    req_userid = req.query.userid
+
     async.waterfall([
         function(nextCallback){
             pool.getConnection(nextCallback);
@@ -23,7 +26,8 @@ router.get('/new', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql : 'SELECT * FROM products WHERE del = "N" ORDER BY id DESC'
+                sql : 'SELECT * FROM products WHERE (del = "N") AND (userid = ?) ORDER BY id DESC',
+                values : [req_userid]
             }, nextCallback);
             
         }
@@ -37,6 +41,7 @@ router.get('/new', function(req, res, next){
             console.log(err_data.reason);
         }
         res_data = result;
+        console.log(res_data)
         res.send(res_data);
     });
 });
@@ -50,6 +55,7 @@ router.post('/insert', function(req, res, next){
     var err_data = {
         reason: null
     };
+    console.log(req.body)
     async.waterfall([
         function(nextCallback){
             pool.getConnection(nextCallback);
@@ -57,8 +63,8 @@ router.post('/insert', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql : 'INSERT INTO products (name, passwd, phone, mphone, address, exnumber, comment) VALUES(?, ?, ?, ?, ?, ?, ?)',
-                values : [req.body.name, req.body.passwd, req.body.phone, req.body.mphone, req.body.address, req.body.exnumber, req.body.comment]
+                sql : 'INSERT INTO products (userid, mphone, address, exnumber, contents, comment) VALUES(?, ?, ?, ?, ?, ?)',
+                values : [req.body.userid, req.body.mphone, req.body.address, req.body.exnumber, req.body.contents, req.body.comment]
             }, nextCallback);
         }
     ], function(err, result, fields){

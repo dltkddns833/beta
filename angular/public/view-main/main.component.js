@@ -17,7 +17,29 @@ component('main',{
             ctrl.boinfor = []
 
             // Init
-            var url = "http://"+ $window.location.host + "#!/deposit"
+            var url = "deposit"
+
+            var putProduct = function(req_body){
+                restService.products.postProductsList({
+                }, {
+                    userid : req_body.userid,
+                    mphone : req_body.mphone,
+                    address : req_body.address,
+                    exnumber : req_body.exnumber,
+                    contents : req_body.contents,
+                    comment : req_body.comment
+
+                }).$promise.then(function(response){
+                    console.log('Sucess POST Products in Client');
+                    console.log(response);
+                    ctrl.boinfor = null
+                    alert('Sucess');
+                    
+                    daydreamshared.goToPage(url);
+
+                })
+            }
+
             // funciton
             ctrl.onClickSubmit = function(infor){
                 var req_body = []
@@ -27,7 +49,8 @@ component('main',{
                 ctrl.boinfor.mphone = infor.mphone
                 ctrl.boinfor.address = infor.address
                 ctrl.boinfor.exnumber = infor.exnumber
-                ctrl.boinfor.passwd= infor.passwd
+                ctrl.boinfor.contents = infor.contents
+                ctrl.boinfor.userid = 0
                 
                 daydreamshared.hello();
 
@@ -38,27 +61,41 @@ component('main',{
                 }
 
                 console.log(ctrl.boinfor)
+
                 req_body = ctrl.boinfor;
 
-                restService.products.postProductsList({
-                }, {
+                restService.user.getUser({
                     name : req_body.name,
-                    phone : req_body.phone,
-                    mphone : req_body.mphone,
-                    address : req_body.address,
-                    exnumber : req_body.exnumber,
-                    passwd : req_body.passwd,
-                    comment : req_body.comment
-
+                    phone : req_body.phone
                 }).$promise.then(function(response){
-                    console.log('Sucess POST Products in Client');
-                    console.log(response);
-                    ctrl.boinfor = null
-                    alert('Sucess');
-                    // location.reload();
-                    $log.log(url);
-                    $window.location.href = url;
+                    // 가입되어 있는 회원이 존재
+                    if(response.length == 1){
+                        req_body.userid = response[0].id;
+                        putProduct(req_body);
+                    }
 
+                    // 신규 가입
+                    if(response.length == 0){
+                        restService.user.putUser({
+                        },{
+                            name : req_body.name,
+                            phone : req_body.phone
+
+                        }).$promise.then(function(response){
+                            console.log('신규가입')
+                            console.log(response);
+                            restService.user.getUser({
+                                name : req_body.name,
+                                phone : req_body.phone
+                            }).$promise.then(function(response){
+                                req_body.userid = response[0].id;
+                                putProduct(req_body);
+                            })
+                        })
+                    }else{
+                        console.log('Error Main Component User API');
+                    }
+                
                 })
             }
 
