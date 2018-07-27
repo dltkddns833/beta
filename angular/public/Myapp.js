@@ -9,7 +9,9 @@ var Myapp = angular.module('Myapp',[
     'main',
     'list',
     'deposit',
-    'verify'
+    'verify',
+    'master',
+    'mlist'
 ]).
 config(function($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
@@ -21,7 +23,7 @@ config(function($routeProvider, $locationProvider){
     when('/main',{
         template : '<main></main>'
     }).
-    when('/list/:userNumber/:userName',{
+    when('/list/:userid',{
         template : '<list></list>'
     }).
     when('/deposit',{
@@ -29,6 +31,12 @@ config(function($routeProvider, $locationProvider){
     }).
     when('/verify',{
         template : '<verify></verify>'
+    }).
+    when('/master/:userid/:masterName/:masterPhone/:masterState',{
+        template : '<master></master>'
+    }).
+    when('/mlist/:userid/:id',{
+        template : '<mlist></mlist>'
     }).
     otherwise({redirectTo: '/main'});
 });

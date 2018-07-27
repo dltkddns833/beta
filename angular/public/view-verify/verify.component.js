@@ -13,15 +13,37 @@ component('verify',{
         function verifyController($scope, $window, $log, daydreamshared, restService){
             var ctrl = this;
             
-            ctrl.verifyinfor = [];
+            ctrl.verifyinfor = 0;
             var url = "list/"
             // Init
 
             // funciton
             ctrl.onSubmitClicked = function(infor){
-                url = url + infor.phone + "/" + infor.name
-                daydreamshared.userInfo(infor.name, infor.phone);
-                daydreamshared.goToPage(url);
+                restService.user.getUser({
+                    name : infor.name,
+                    phone : infor.phone
+                }).$promise.then(function(response){
+                    console.log(response)
+                    if(response.length == 1 && response[0].part == 0){
+                        ctrl.verifyinfor = response[0].id;
+
+                        url = url + ctrl.verifyinfor;
+                        daydreamshared.goToPage(url);
+
+                    }
+                    else if(response.length == 1 && response[0].part == 2){
+                        $scope.masterLogin = true;
+                        console.log($scope.masterLogin);
+                        url = "master/"
+                        ctrl.verifyinfor = response[0].id;
+
+                        url = url + ctrl.verifyinfor + "/" + response[0].name + "/" + response[0].phone + "/main";
+                        daydreamshared.goToPage(url);
+                    }else{
+                        alert('등록된 내역이 없습니다.');
+                    }
+                })
+
             }
 
             /*Initialize*/

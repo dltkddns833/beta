@@ -42,6 +42,40 @@ router.get('/getuser', function(req, res, next){
     })
 })
 
+router.get('/getuserid', function(req, res, next){
+    var sqlConnection;
+
+    var res_data;
+    var err_status_code = null;
+    var err_data = {
+        reason : null
+    };
+
+    var req_id = req.query.userid;
+
+    async.waterfall([
+        function(nextCallback){
+            pool.getConnection(nextCallback);
+        },
+        function(connection, nextCallback){
+            sqlConnection = connection;
+            sqlConnection.query({
+                sql: 'SELECT * FROM user WHERE id = ?',
+                values : req_id
+            }, nextCallback);
+        }
+    ], function(err, result, fields){
+        if(sqlConnection){
+            sqlConnection.release();
+        }
+        if(err){
+            err_data.reason = err;
+        }
+        res_data = result;
+        res.send(res_data);
+    })
+})
+
 router.put('/insertuser', function(req, res, next){
     var sqlConnection;
 

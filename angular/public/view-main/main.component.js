@@ -23,6 +23,7 @@ component('main',{
                 restService.products.postProductsList({
                 }, {
                     userid : req_body.userid,
+                    mname : req_body.mname,
                     mphone : req_body.mphone,
                     address : req_body.address,
                     exnumber : req_body.exnumber,
@@ -46,6 +47,7 @@ component('main',{
 
                 ctrl.boinfor.name = infor.name
                 ctrl.boinfor.phone = infor.phone
+                ctrl.boinfor.mname = infor.mname
                 ctrl.boinfor.mphone = infor.mphone
                 ctrl.boinfor.address = infor.address
                 ctrl.boinfor.exnumber = infor.exnumber
@@ -101,7 +103,7 @@ component('main',{
 
             /*Initialize*/
             ctrl.$onInit = function () {
-
+                $scope.masterLogin = false;
             };
 
         }]

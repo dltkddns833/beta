@@ -8,10 +8,28 @@ angular.module('core.daydreamrestApi', [
     function($resource){
 
         var products = $resource('/api/products', {}, {
+            getProductsListAll:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/products/getlistAll'
+            },
+            
             getProductsList:{
                 method: 'GET',
                 isArray: true,
                 url: '/api/v0.1.1/products/getlist'
+            },
+
+            getProductsListId:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/products/getlistid'
+            },
+
+            getProductsOption:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/products/getoptionlist'
             },
 
             postProductsList:{
@@ -31,6 +49,12 @@ angular.module('core.daydreamrestApi', [
                 method: 'GET',
                 isArray: true,
                 url : '/api/v0.1.1/user/getuser'
+            },
+
+            getUserId:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/user/getuserid'
             },
 
             putUser:{

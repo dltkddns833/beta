@@ -1,0 +1,67 @@
+<div>
+    <h1>Master Page</h1>
+    <div class="row">
+        <h3 class="col-md-4" ng-click="$ctrl.onChangeParamsClicked('main')">전체</h3>
+        <h3 class="col-md-4" ng-click="$ctrl.onChangeParamsClicked('new')">신규</h3>
+        <h3 class="col-md-4" ng-click="$ctrl.onChangeParamsClicked('deposit')">입금완료</h3>
+        <h3 class="col-md-4" ng-click="$ctrl.onChangeParamsClicked('progress')">진행중</h3>
+        <h3 class="col-md-4" ng-click="$ctrl.onChangeParamsClicked('complete')">완료</h3>
+    </div>
+
+    <div ng-if="$ctrl.masterState == 'main'">
+        <h1>Master main</h1>
+        <div ng-repeat="list in $ctrl.res_list">
+            <h5 ng-click="$ctrl.onListClicked(list.userid, list.id)">{{list.mname}}</h5>
+            <span>입금 : {{list.deposit}} |</span>
+            <span>체험단 선정 : {{list.completeEx}} | </span>
+            <span>체험단 완료 : {{list.completeAll}}</span>
+            <hr>
+        </div>
+    </div>
+    
+    <div ng-if = "$ctrl.masterState == 'new'">
+        <h1>New</h1>
+        <div ng-repeat="list in $ctrl.res_list">
+            <h5>{{list.mname}}</h5>
+            <span>입금 : {{list.deposit}} |</span>
+            <span>체험단 선정 : {{list.completeEx}} | </span>
+            <span>체험단 완료 : {{list.completeAll}}</span>
+            <hr>
+        </div>
+    </div>
+
+    <div ng-if = "$ctrl.masterState == 'deposit'">
+        <h1>Deposit</h1>
+        <div ng-repeat="list in $ctrl.res_list">
+            <h5>{{list.mname}}</h5>
+            <span>입금 : {{list.deposit}} |</span>
+            <span>체험단 선정 : {{list.completeEx}} | </span>
+            <span>체험단 완료 : {{list.completeAll}}</span>
+            <hr>
+        </div>
+    </div>
+    
+    <div ng-if = "$ctrl.masterState == 'progress'">
+        <h1>Progress</h1>
+        <div ng-repeat="list in $ctrl.res_list">
+            <h5>{{list.mname}}</h5>
+            <span>입금 : {{list.deposit}} |</span>
+            <span>체험단 선정 : {{list.completeEx}} | </span>
+            <span>체험단 완료 : {{list.completeAll}}</span>
+            <hr>
+        </div>
+    </div>
+    
+    <div ng-if = "$ctrl.masterState == 'complete'">
+        <h1>Complete</h1>
+        <div ng-repeat="list in $ctrl.res_list">
+            <h5>{{list.mname}}</h5>
+            <span>입금 : {{list.deposit}} |</span>
+            <span>체험단 선정 : {{list.completeEx}} | </span>
+            <span>체험단 완료 : {{list.completeAll}}</span>
+            <hr>
+        </div>
+    </div>
+    
+    
+</div>

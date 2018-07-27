@@ -13,8 +13,6 @@ component('list',{
             var ctrl = this;
             
             var userInfo = [
-                name = null,
-                phone = null,
                 userid = null
             ]
 
@@ -27,23 +25,16 @@ component('list',{
 
             // Init
             var reqlist = function(){
-                userInfo.name = $routeParams.userName;
-                userInfo.phone = $routeParams.userNumber;
+                userInfo.userid = $routeParams.userid;
 
-                restService.user.getUser({
-                    name : userInfo.name,
-                    phone : userInfo.phone
+                restService.user.getUserId({
+                    userid : userInfo.userid
                 }).$promise.then(function(response){
-                    console.log(response)
-                    if(response.length == 1){
-                        userInfo.userid = response[0].id;
-                        ctrl.user.name = userInfo.name;
-                        ctrl.user.phone = userInfo.phone;
-                        getlist(userInfo.userid);
-                    }else{
-                        alert('등록된 내역이 없습니다.');
-                    }
+                    console.log(response);
+                    ctrl.user.name = response[0].name;
+                    ctrl.user.phone = response[0].phone;
                 })
+                getlist(userInfo.userid);
             }
 
             var getlist = function(id){

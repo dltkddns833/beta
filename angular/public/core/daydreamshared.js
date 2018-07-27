@@ -12,11 +12,6 @@ angular.module('core.daydreamshared', [
             console.log('hello shared')
         }
 
-        var userInfo = function(name, phone){
-            $rootScope.name = name;
-            $rootScope.phone = phone;
-        }
-
         var goToPage = function(desUrl){
             var url = "http://"+ $window.location.host + "/#!/";
             url = url + desUrl;
@@ -27,8 +22,7 @@ angular.module('core.daydreamshared', [
 
         return {
             hello: hello,
-            goToPage: goToPage,
-            userInfo: userInfo
+            goToPage: goToPage
         };
 
     }
