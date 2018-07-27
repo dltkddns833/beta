@@ -27,9 +27,6 @@ component('list',{
 
             // Init
             var reqlist = function(){
-                console.log('Request List');
-
-                console.log($routeParams)
                 userInfo.name = $routeParams.userName;
                 userInfo.phone = $routeParams.userNumber;
 
@@ -55,19 +52,15 @@ component('list',{
                 },{
 
                 }).$promise.then(function(response){
-                    console.log('Mysql Response');
-                    console.log(response);
                     ctrl.list = response;
                 })
             }
 
             // funciton
             ctrl.onClickDeleteButton = function(id){
-                console.log('Delete List')
                 restService.products.deleteProductsList({
                     listId : id
                 }).$promise.then(function(response){
-                    console.log('Compelete Delete')
                     location.reload();
                 })
             }

@@ -36,7 +36,6 @@ router.get('/getuser', function(req, res, next){
         }
         if(err){
             err_data.reason = err;
-            console.log(err_data.reason);
         }
         res_data = result;
         res.send(res_data);

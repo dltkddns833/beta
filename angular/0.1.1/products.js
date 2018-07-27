@@ -41,7 +41,6 @@ router.get('/getlist', function(req, res, next){
             console.log(err_data.reason);
         }
         res_data = result;
-        console.log(res_data)
         res.send(res_data);
     });
 });
