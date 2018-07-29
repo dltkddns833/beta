@@ -5,9 +5,9 @@ var db = require('../mysql');
 
 var pool = db.getPool();
 
-console.log('User Query')
+console.log('Exuser Query');
 
-router.get('/getuser', function(req, res, next){
+router.get('/getexuser', function(req, res, next){
     var sqlConnection;
 
     var res_data;
@@ -16,8 +16,7 @@ router.get('/getuser', function(req, res, next){
         reason : null
     };
 
-    var req_name = req.query.name;
-    var req_phone = req.query.phone;
+    var req_listid = req.query.listid;
 
     async.waterfall([
         function(nextCallback){
@@ -26,8 +25,8 @@ router.get('/getuser', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql : 'SELECT * FROM user WHERE (name = ?) AND (phone = ?)',
-                values : [req_name, req_phone]
+                sql : 'SELECT * FROM exuser WHERE listid = ?',
+                values : [req_listid]
             }, nextCallback);
         }
     ], function(err, result, fields){
@@ -36,13 +35,14 @@ router.get('/getuser', function(req, res, next){
         }
         if(err){
             err_data.reason = err;
+            console.log(err_data);
         }
         res_data = result;
         res.send(res_data);
     })
 })
 
-router.get('/getuserid', function(req, res, next){
+router.post('/insertexuser', function(req, res, next){
     var sqlConnection;
 
     var res_data;
@@ -51,7 +51,8 @@ router.get('/getuserid', function(req, res, next){
         reason : null
     };
 
-    var req_id = req.query.userid;
+    console.log('POST EXUSER')
+    var req_body = req.body;
 
     async.waterfall([
         function(nextCallback){
@@ -60,8 +61,8 @@ router.get('/getuserid', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql: 'SELECT * FROM user WHERE id = ?',
-                values : req_id
+                sql : 'INSERT INTO exuser (listid ,name, nickname, phone, gender, blog) VALUES (?, ?, ?, ?, ?, ?)',
+                values : [req_body.listid, req_body.name, req_body.nickname, req_body.phone, req_body.gender, req_body.blog]
             }, nextCallback);
         }
     ], function(err, result, fields){
@@ -70,14 +71,14 @@ router.get('/getuserid', function(req, res, next){
         }
         if(err){
             err_data.reason = err;
+            console.log(err_data);
         }
         res_data = result;
         res.send(res_data);
     })
 })
 
-// Put
-router.put('/insertuser', function(req, res, next){
+router.put('/putexuser', function(req, res, next){
     var sqlConnection;
 
     var res_data;
@@ -86,8 +87,8 @@ router.put('/insertuser', function(req, res, next){
         reason : null
     };
 
-    var req_name = req.body.name;
-    var req_phone = req.body.phone;
+    console.log('PUT EXUSER')
+    var req_body = req.body;
 
     async.waterfall([
         function(nextCallback){
@@ -96,8 +97,44 @@ router.put('/insertuser', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql : 'INSERT INTO user (name, phone) VALUES (?, ?)',
-                values : [req_name, req_phone]
+                sql : 'UPDATE exuser SET name = ?, nickname = ?, phone = ?, gender = ?, blog = ?, cancel = ?, complete = ? WHERE id = ?',
+                values : [req_body.name, req_body.nickname, req_body.phone, req_body.gender, req_body.blog, req_body.cancel, req_body.complete, req_body.listid]
+            }, nextCallback);
+        }
+    ], function(err, result, fields){
+        if(sqlConnection){
+            sqlConnection.release();
+        }
+        if(err){
+            err_data.reason = err;
+            console.log(err_data);
+        }
+        res_data = result;
+        res.send(res_data);
+    })
+})
+
+router.delete('/deleteexuser', function(req, res, next){
+    var sqlConnection;
+
+    var res_data;
+    var err_status_code = null;
+    var err_data = {
+        reason : null
+    };
+
+    console.log('DELETE EXUSER')
+    var req_body = req.query;
+
+    async.waterfall([
+        function(nextCallback){
+            pool.getConnection(nextCallback);
+        },
+        function(connection, nextCallback){
+            sqlConnection = connection;
+            sqlConnection.query({
+                sql : 'DELETE  FROM exuser WHERE id = ?',
+                values : [req_body.id]
             }, nextCallback);
         }
     ], function(err, result, fields){

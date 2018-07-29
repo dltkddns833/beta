@@ -14,3 +14,70 @@
     {{$ctrl.list_data.completeEx}}
     {{$ctrl.list_data.completeAll}}
 </div>
+<hr>
+<div>
+    <div>
+        <div class="row text-center">
+            <h4 class="col-md-1">이름</h4>
+            <h4 class="col-md-1">닉네임</h4>
+            <h4 class="col-md-1">성별</h4>
+            <h4 class="col-md-1">휴대폰</h4>
+            <h4 class="col-md-1">블로그</h4>
+            <h4 class="col-md-1">취소여부</h4>
+            <h4 class="col-md-1">완료여부</h4>
+        </div>
+        <div ng-repeat="list in $ctrl.exuser_data" ng-init="exmodify = false">
+            <div class="row text-center" ng-show="!exmodify" >
+                <p class="col-md-1">{{list.name}}</p>
+                <p class="col-md-1">{{list.nickname}}</p>
+                <p class="col-md-1">{{list.gender}}</p>
+                <p class="col-md-1">{{list.phone}}</p>
+                <p class="col-md-1">{{list.blog}}</p>
+                <p class="col-md-1">{{list.cancel}}</p>
+                <p class="col-md-1">{{list.complete}}</p>
+                <button class="col-md-1" ng-show="!exmodify" ng-click="exmodify = !exmodify">수정</button>
+                <button class="col-md-1" ng-click="$ctrl.onClickDeleteExuser(list.id)">삭제</button>
+            </div>
+
+            <div class="row text-center" ng-show="exmodify">
+                <input class="col-md-1" type="text" ng-init="modify.name = list.name" ng-model="modify.name" required>
+                <input class="col-md-1" type="text" ng-init="modify.nickname = list.nickname" ng-model="modify.nickname" required>
+                <select class="col-md-1" ng-init="modify.gender = list.gender" ng-model="modify.gender" required>
+                    <option value="M">남자</option>
+                    <option value="W">여자</option>
+                </select>
+                <input class="col-md-1" type="text" ng-init="modify.phone = list.phone" ng-model="modify.phone" required>
+                <input class="col-md-1" type="text" ng-init="modify.blog = list.blog" ng-model="modify.blog" required>
+                <select class="col-md-1" ng-init="modify.cancel = list.cancel" ng-model="modify.cancel" required>
+                    <option value="N">체험가능</option>
+                    <option value="Y">체험취소</option>
+                </select>
+                <select class="col-md-1" ng-init="modify.complete = list.complete" ng-model="modify.complete" required>
+                    <option value="N">진행중</option>
+                    <option value="Y">완료</option>
+                </select>
+                <button class="col-md-1" ng-show="exmodify" ng-click="$ctrl.onClickExuserModify(list.id, modify)">완료</button>
+                <button class="col-md-1" ng-click="$ctrl.onClickDeleteExuser(list.id)">삭제</button>
+            </div>
+            
+        </div>
+    </div>
+    <hr>
+    <form>
+        <p>이름</p>
+        <input type="text" ng-model="exinfor.name" required/>
+        <p>닉네임</p>
+        <input type="text" ng-model="exinfor.nickname" required/>
+        <p>휴대폰 번호</p>
+        <input type="text" ng-model="exinfor.phone" required/>
+        <p>성별</p>
+        <select ng-model="exinfor.gender">
+            <option value="M">남자</option>
+            <option value="W" selected>여자</option>
+        </select>
+        <p>블로그 url</p>
+        <input type="text" ng-model="exinfor.blog" required/>
+
+        <button type="submit" ng-click="$ctrl.onClickExuser(exinfor)">완료</button>
+    </form>
+</div>

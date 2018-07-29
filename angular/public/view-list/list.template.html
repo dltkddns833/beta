@@ -10,6 +10,19 @@
         <p>문의 사항 : {{list.comment}}</p>
         <p>입금 : {{list.deposit}}</p>
         <!-- <button type="submit" ng-click="$ctrl.onClickDeleteButton(list.id)">삭제</button> -->
+        <button ng-click="$ctrl.onClickshowExuser(list.id)">체험단보기</button>
         <hr>
+
+        <div ng-repeat="list in $ctrl.exuser_data">
+            <div class="row text-center">
+                <p class="col-md-1">{{list.name}}</p>
+                <p class="col-md-1">{{list.nickname}}</p>
+                <p class="col-md-1">{{list.gender}}</p>
+                <p class="col-md-1">{{list.phone}}</p>
+                <p class="col-md-1">{{list.blog}}</p>
+                <p class="col-md-1">{{list.cancel}}</p>
+                <p class="col-md-1">{{list.complete}}</p>
+            </div>
+        </div>
     </div>
 </div>

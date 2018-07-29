@@ -21,6 +21,8 @@ component('list',{
                 phone = null
             ]
 
+            ctrl.exuser_data = [];
+
 
 
             // Init
@@ -47,6 +49,15 @@ component('list',{
                 })
             }
 
+            var getExuserData = function(id){
+                restService.exuser.getExuserId({
+                    listid : id
+                }).$promise.then(function(response){
+                    ctrl.exuser_data = response;
+                    console.log(ctrl.exuser_data)
+                })
+            }
+
             // funciton
             ctrl.onClickDeleteButton = function(id){
                 restService.products.deleteProductsList({
@@ -54,6 +65,10 @@ component('list',{
                 }).$promise.then(function(response){
                     location.reload();
                 })
+            }
+
+            ctrl.onClickshowExuser = function(id){
+                getExuserData(id);
             }
 
             /*Initialize*/

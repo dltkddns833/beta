@@ -61,11 +61,35 @@ angular.module('core.daydreamrestApi', [
                 method: 'PUT',
                 url : '/api/v0.1.1/user/insertuser'
             }
-        })
+        });
+
+        var exuser = $resource('/api/exuser',{}, {
+            getExuserId:{
+                method: 'GET',
+                isArray: true,
+                url: '/api/v0.1.1/exuser/getexuser'
+            },
+
+            postExuser:{
+                method: 'POST',
+                url : '/api/v0.1.1/exuser/insertexuser'
+            },
+
+            putExuser:{
+                method: 'PUT',
+                url : '/api/v0.1.1/exuser/putexuser'
+            },
+            
+            deleteExuser:{
+                method: 'DELETE',
+                url : '/api/v0.1.1/exuser/deleteexuser'
+            }
+        });
 
         return{
             products: products,
-            user : user
+            user : user,
+            exuser : exuser
         };
     }
 ]);
