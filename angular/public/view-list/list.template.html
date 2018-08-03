@@ -3,14 +3,13 @@
     <h1>{{$ctrl.user.name}}님의 신청 내역</h1>
     <div class="" ng-repeat="list in $ctrl.list">
         <p>매장 이름 : {{list.mname}}</p>
-        <p>매장 연락처 : {{list.mphone}}</p>
-        <p>주소 : {{list.address}}</p>
-        <p>체험단 명수 : {{list.exnumber}}</p>
         <p>체험내역 : {{list.contents}}</p>
-        <p>문의 사항 : {{list.comment}}</p>
+        <p>일시 : {{list.date}}</p>
         <p>입금 : {{list.deposit}}</p>
+        <p>체험단선정 : {{list.completeEx}}</p>
+        <p>완료 : {{list.completeAll}}</p>
         <!-- <button type="submit" ng-click="$ctrl.onClickDeleteButton(list.id)">삭제</button> -->
-        <button ng-click="$ctrl.onClickshowExuser(list.id)">체험단보기</button>
+        <a href="#!/dlist/{{$ctrl.user.name}}/{{list.id}}"><button>자세히보기</button></a>
         <hr>
 
         <div ng-repeat="list in $ctrl.exuser_data">

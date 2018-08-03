@@ -49,15 +49,6 @@ component('list',{
                 })
             }
 
-            var getExuserData = function(id){
-                restService.exuser.getExuserId({
-                    listid : id
-                }).$promise.then(function(response){
-                    ctrl.exuser_data = response;
-                    console.log(ctrl.exuser_data)
-                })
-            }
-
             // funciton
             ctrl.onClickDeleteButton = function(id){
                 restService.products.deleteProductsList({

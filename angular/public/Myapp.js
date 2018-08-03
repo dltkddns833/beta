@@ -11,7 +11,8 @@ var Myapp = angular.module('Myapp',[
     'deposit',
     'verify',
     'master',
-    'mlist'
+    'mlist',
+    'dlist'
 ]).
 config(function($routeProvider, $locationProvider){
     $locationProvider.hashPrefix('!');
@@ -37,6 +38,9 @@ config(function($routeProvider, $locationProvider){
     }).
     when('/mlist/:userid/:id',{
         template : '<mlist></mlist>'
+    }).
+    when('/dlist/:userName/:id',{
+        template : '<dlist></dlist>'
     }).
     otherwise({redirectTo: '/main'});
 });
