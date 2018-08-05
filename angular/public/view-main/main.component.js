@@ -9,12 +9,13 @@ component('main',{
         '$scope', 
         'daydreamshared',
         'restService',
-        '$window',
+        '$http',
         '$log',
-        function mainController($scope, daydreamshared, restService, $window, $log){
+        function mainController($scope, daydreamshared, restService, $http, $log){
             var ctrl = this;
             
-            ctrl.boinfor = []
+            ctrl.boinfor = [];
+            ctrl.imageurl = [];
 
             // Init
             var url = "deposit"
@@ -38,6 +39,16 @@ component('main',{
                     
                     daydreamshared.goToPage(url);
 
+                })
+            }
+
+            var sendMail = function(req_body){
+                restService.mail.sendMail({
+                    name : req_body.name,
+                    phone : req_body.phone
+                }).$promise.then(function(response){
+                    console.log('Success Send Mail');
+                    console.log(response);
                 })
             }
 
@@ -97,7 +108,33 @@ component('main',{
                     }else{
                         console.log('Error Main Component User API');
                     }
-                
+                    
+                    sendMail(req_body);
+
+                })
+            }
+
+            ctrl.onClickImage = function(){
+                console.log($scope.imagefile)
+                var file = $scope.imagefile;
+                var uploadUrl = "/api/v0.1.1/mail/sendImage";
+                var fd = new FormData();
+                fd.append('imagefile', file);
+        
+                $http.post(uploadUrl,fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                }).then(function(response){
+                    ctrl.imageurl.push($scope.imagefile.name)
+                    console.log(ctrl.imageurl)
+                })
+            }
+
+            ctrl.onClickDeleteImage = function(img, index){
+                restService.mail.deleteImage({
+                    name : img
+                }).$promise.then(function(response){
+                    ctrl.imageurl.splice(index, 1);
                 })
             }
 

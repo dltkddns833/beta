@@ -86,10 +86,28 @@ angular.module('core.daydreamrestApi', [
             }
         });
 
+        var mail = $resource('/api/mail',{},{
+            sendMail : {
+                method : 'POST',
+                url : '/api/v0.1.1/mail/sendMail'
+            },
+
+            sendImage : {
+                method : 'POST',
+                url : '/api/v0.1.1/mail/sendImage'
+            },
+
+            deleteImage : {
+                method : 'POST',
+                url : '/api/v0.1.1/mail/deleteImage'
+            }
+        });
+
         return{
             products: products,
             user : user,
-            exuser : exuser
+            exuser : exuser,
+            mail : mail
         };
     }
 ]);

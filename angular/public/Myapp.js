@@ -5,6 +5,9 @@ var Myapp = angular.module('Myapp',[
     'ui.router',
     'core',
 
+    //directive
+    'imageUpload',
+
     // Route
     'main',
     'list',

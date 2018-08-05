@@ -26,7 +26,14 @@
 
         <h3>기타 문의</h3>
         <textarea ng-model="boinfor.comment">test</textarea>
+        
+        <input type="file" image-upload="imagefile"/>
+        <button ng-click="$ctrl.onClickImage()">upload</button>
+        <div ng-repeat="list in $ctrl.imageurl">
+            <img src="http://localhost:52273/image/{{list}}" ng-click="$ctrl.onClickDeleteImage(list, $index)" width="100px" height="100px"/>
+        </div>
         <hr>
         <button type="submit" ng-click="$ctrl.onClickSubmit(boinfor)">제출</button>
+        
     </form>
 </div>
