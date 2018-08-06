@@ -100,6 +100,11 @@ angular.module('core.daydreamrestApi', [
             deleteImage : {
                 method : 'POST',
                 url : '/api/v0.1.1/mail/deleteImage'
+            },
+
+            deleteAll : {
+                method : 'POST',
+                url : '/api/v0.1.1/mail/deleteAll'
             }
         });
 
