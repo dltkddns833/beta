@@ -39,7 +39,6 @@ component('dlist',{
                     listid : id
                 }).$promise.then(function(response){
                     ctrl.exuser_data = response;
-                    console.log(ctrl.exuser_data)
                 })
             }
 

@@ -11,6 +11,8 @@ component('list',{
         'restService',
         function listController($scope, $routeParams, daydreamshared, restService){
             var ctrl = this;
+
+            var url = 'dlist';
             
             var userInfo = [
                 userid = null
@@ -58,8 +60,13 @@ component('list',{
                 })
             }
 
-            ctrl.onClickshowExuser = function(id){
-                getExuserData(id);
+            // ctrl.onClickshowExuser = function(id){
+            //     getExuserData(id);
+            // }
+
+            ctrl.onClickDetail = function(name, id){
+                url = url + '/' + name + '/' + id
+                daydreamshared.goToPage(url);
             }
 
             /*Initialize*/

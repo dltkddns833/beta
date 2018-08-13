@@ -56,6 +56,7 @@ component('main',{
                         console.log('Error Main Component User API');
                     }
                     sendMail(req_body);
+                    daydreamshared.goToPage(url);
                 })
             }
 
@@ -76,7 +77,7 @@ component('main',{
                     ctrl.boinfor = null
                     alert('Sucess');
                     
-                    daydreamshared.goToPage(url);
+                    // daydreamshared.goToPage(url);
 
                 })
             }
@@ -192,6 +193,8 @@ component('main',{
                     isupload = true;
                     // putUser(req_body);
                     sendMail(req_body)
+                    alert('신청 완료');
+                    daydreamshared.goToPage(url);
                 }
             }
 
@@ -238,7 +241,7 @@ component('main',{
                         deleteAll();
                     }
 
-                }, 12000);
+                }, 10000);
             };
 
         }]

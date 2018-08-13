@@ -6,6 +6,12 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         
         <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="css/entire.css"/>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
+        <link rel="stylesheet" type="text/css" href="css/verify.css"/>
+        <link rel="stylesheet" type="text/css" href="css/list.css"/>
+        <link rel="stylesheet" type="text/css" href="css/dlist.css"/>
+
 
     </head>
     <body>
@@ -18,16 +24,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#!/main">BETA</a>
+                    <a class="navbar-brand" href="#!/main">Daydream_Media</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <a href="#!/main"><li class="text-white text-center">main</li></a>
-                        <a href="#!/verify"><li class="text-white text-center">list</li></a>
+                            <li class="text-white text-center"><a href="#!/main">체험단신청</a></li>
+                            <li class="text-white text-center"><a href="#!/verify">신청내역확인</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <!-- <div uib-alert ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div> -->
         <div>
             <div ng-view></div>
         </div>

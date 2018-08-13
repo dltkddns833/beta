@@ -1,33 +1,51 @@
-<h1>dlist</h1>
-<p>매장이름 : {{$ctrl.product_data.mname}}</p>
-<p>매장 연락처 : {{$ctrl.product_data.mphone}}</p>
-<p>매장 주소 : {{$ctrl.product_data.address}}</p>
-<p>체험 내용 : {{$ctrl.product_data.contents}}</p>
-<p>문의 사항 : {{$ctrl.product_data.comment}}</p>
-<p>신청날짜 : {{$ctrl.product_data.date}}</p>
-<p>신청 체험단 수 : {{$ctrl.product_data.exnumber}}</p>
-<p>입금 내역 : {{$ctrl.product_data.deposit}}</p>
-<p>체험단 선정 : {{$ctrl.product_data.completeEx}}</p>
-<p>완료 : {{$ctrl.product_data.completeAll}}</p>
-<hr>
-<h1>체험단 정보</h1>
-<div class="row text-center">
-    <h4 class="col-md-1">이름</h4>
-    <h4 class="col-md-1">닉네임</h4>
-    <h4 class="col-md-1">성별</h4>
-    <h4 class="col-md-1">휴대폰</h4>
-    <h4 class="col-md-1">블로그</h4>
-    <h4 class="col-md-1">취소여부</h4>
-    <h4 class="col-md-1">완료여부</h4>
-</div>
-<div class="row text-center" ng-repeat="list in $ctrl.exuser_data">
-    <p class="col-md-1">{{list.name}}</p>
-    <p class="col-md-1">{{list.nickname}}</p>
-    <p class="col-md-1">{{list.gender}}</p>
-    <p class="col-md-1">{{list.phone}}</p>
-    <p class="col-md-1">{{list.blog}}</p>
-    <p class="col-md-1">{{list.cancel}}</p>
-    <p class="col-md-1">{{list.complete}}</p>
-    <!-- <button class="col-md-1" ng-show="!exmodify" ng-click="exmodify = !exmodify">수정</button>
-    <button class="col-md-1" ng-click="$ctrl.onClickDeleteExuser(list.id)">삭제</button> -->
+<div class="dlist-wrapper">
+    <br>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            체험단 상세 내역
+        </div>
+        <div class="panel-body">
+                <p>매장이름 : {{$ctrl.product_data.mname}}</p>
+                <p>매장 연락처 : {{$ctrl.product_data.mphone}}</p>
+                <p>매장 주소 : {{$ctrl.product_data.address}}</p>
+                <p>체험 내용 : {{$ctrl.product_data.contents}}</p>
+                <p>문의 사항 : {{$ctrl.product_data.comment}}</p>
+                <p>신청날짜 : {{$ctrl.product_data.date}}</p>
+                <p>신청 체험단 수 : {{$ctrl.product_data.exnumber}}</p>
+                <p>입금 내역 : {{$ctrl.product_data.deposit}}</p>
+                <p>체험단 선정 : {{$ctrl.product_data.completeEx}}</p>
+                <p>완료 : {{$ctrl.product_data.completeAll}}</p>
+        </div>
+        <table class="table text-center">
+            <thead>
+                <tr class="row">
+                    <th class="col-md-1"></th>
+                    <th class="col-md-1">이름</th>
+                    <th class="col-md-2">닉네임</th>
+                    <th class="col-md-1">성별</th>
+                    <th class="col-md-2">휴대폰</th>
+                    <th class="col-md-1">블로그</th>
+                    <th class="col-md-2">취소</th>
+                    <th class="col-md-2">완료</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row" ng-repeat="list in $ctrl.exuser_data">
+                    <td class="col-md-1">{{$index + 1}}</td>
+                    <td class="col-md-2">{{list.name}}</td>
+                    <td class="col-md-1">{{list.nickname}}</td>
+                    <td class="col-md-1">{{list.gender}}</td>
+                    <td class="col-md-2">{{list.phone}}</td>
+                    <td class="col-md-1"><a href="http://{{list.blog}}">이동</a></td>
+                    <td class="col-md-2">{{list.cancel}}</td>
+                    <td class="col-md-2">{{list.complete}}</td>
+                    <!-- <button class="col-md-1" ng-show="!exmodify" ng-click="exmodify = !exmodify">수정</button>
+                    <button class="col-md-1" ng-click="$ctrl.onClickDeleteExuser(list.id)">삭제</button> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <a href="#!/list/{{$ctrl.product_data.userid}}"><button class="btn btn-default">목록</button></a>
+    </div>
 </div>

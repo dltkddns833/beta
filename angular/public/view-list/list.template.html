@@ -1,27 +1,46 @@
-<div class="">
-    <h3>list</h3>
+<div class="list-wrapper">
+    <br>
     <h1>{{$ctrl.user.name}}님의 신청 내역</h1>
-    <div class="" ng-repeat="list in $ctrl.list">
-        <p>매장 이름 : {{list.mname}}</p>
-        <p>체험내역 : {{list.contents}}</p>
-        <p>일시 : {{list.date}}</p>
-        <p>입금 : {{list.deposit}}</p>
-        <p>체험단선정 : {{list.completeEx}}</p>
-        <p>완료 : {{list.completeAll}}</p>
-        <!-- <button type="submit" ng-click="$ctrl.onClickDeleteButton(list.id)">삭제</button> -->
-        <a href="#!/dlist/{{$ctrl.user.name}}/{{list.id}}"><button>자세히보기</button></a>
-        <hr>
-
-        <div ng-repeat="list in $ctrl.exuser_data">
-            <div class="row text-center">
-                <p class="col-md-1">{{list.name}}</p>
-                <p class="col-md-1">{{list.nickname}}</p>
-                <p class="col-md-1">{{list.gender}}</p>
-                <p class="col-md-1">{{list.phone}}</p>
-                <p class="col-md-1">{{list.blog}}</p>
-                <p class="col-md-1">{{list.cancel}}</p>
-                <p class="col-md-1">{{list.complete}}</p>
-            </div>
-        </div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row">
+                <th class="col-md-1"></th>
+                <th class="col-md-3 text-bold">매장이름</th>
+                <th class="col-md-3">체험내역</th>
+                <th class="col-md-2 text-center">일시</th>
+                <th class="col-md-1 text-center">입금</th>
+                <th class="col-md-2 text-center">체험단 선정</th>
+                <!-- <p class="col-md-1">완료</p> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row cursor" ng-repeat="list in $ctrl.list" ng-click="$ctrl.onClickDetail($ctrl.user.name, list.id)">
+                <td class="col-md-1 text-center">{{$index + 1}}</td>
+                <td class="col-md-3">{{list.mname}}</td>
+                <td class="col-md-3">{{list.contents}}</td>
+                <td class="col-md-2 text-center">{{list.date | date: "yyyy/MM/dd"}}</td>
+                <td class="col-md-1 text-center" ng-if="list.deposit == 'N'">대기</td>
+                <td class="col-md-1 text-center" ng-if="list.deposit == 'Y'">완료</td>
+                <td class="col-md-2 text-center" ng-if="list.completeEx == 'N'">모집중</td>
+                <td class="col-md-2 text-center" ng-if="list.completeEx == 'Y'">완료</td>
+                <!-- <p class="col-md-1">{{list.completeAll}}</p> -->
+            </tr>
+        </tbody>
+    </table>
+    <!-- <div class="row text-center">
+        <p class="col-md-3 text-bold">매장이름</p>
+        <p class="col-md-3">체험내역</p>
+        <p class="col-md-2">일시</p>
+        <p class="col-md-2">입금</p>
+        <p class="col-md-2">체험단 선정</p>
     </div>
+    <div class="row cursor" ng-repeat="list in $ctrl.list" ng-click="$ctrl.onClickDetail($ctrl.user.name, list.id)">
+        <p class="col-md-3">{{list.mname}}</p>
+        <p class="col-md-3">{{list.contents}}</p>
+        <p class="col-md-2">{{list.date | date: "yyyy/MM/dd"}}</p>
+        <p class="col-md-2" ng-if="list.deposit == 'N'">대기</p>
+        <p class="col-md-2" ng-if="list.deposit == 'Y'">완료</p>
+        <p class="col-md-2" ng-if="list.completeEx == 'N'">모집중</p>
+        <p class="col-md-2" ng-if="list.completeEx == 'Y'">완료</p>
+    </div> -->
 </div>

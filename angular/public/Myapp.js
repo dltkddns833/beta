@@ -48,7 +48,15 @@ config(function($routeProvider, $locationProvider){
     otherwise({redirectTo: '/main'});
 });
 
-Myapp.controller('Mycontroller', function($scope, $state){
+Myapp.controller('Mycontroller', function($scope, $rootScope, $state){
     $scope.state = $state;
+    $scope.alert = [];
     console.log($scope.state);
+
+    $rootScope.onShowAlert = function(msg, type){
+        $scope.alert.push({
+            type : type,
+            msg : msg
+        })
+    }
 });

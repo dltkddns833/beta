@@ -1,44 +1,58 @@
 <div class="main-wrapper">
-    <hr>
-    <hr>
-    <hr>
-    <form>
-        <h3>이름</h3>
-        <input type="text" ng-model="boinfor.name" required/>
-        
-        <h3>연락처</h3>
-        <input type="text" ng-model="boinfor.phone" required/>
-        
-        <h3>매장 이름</h3>
-        <input type="text" ng-model="boinfor.mname" required/>
-        
-        <h3>매장 연락처</h3>
-        <input type="text" ng-model="boinfor.mphone" required/>
-        
-        <h3>매장 주소</h3>
-        <input type="text" ng-model="boinfor.address" required/>
-
-        <h3>체험단 명수</h3>
-        <input type="number" ng-model="boinfor.exnumber" required/>
-
-        <h3>체험내역</h3>
-        <input type="text" ng-model="boinfor.contents" required/>
-
-        <h3>기타 문의</h3>
-        <textarea ng-model="boinfor.comment">test</textarea>
-        
-        <input id="main-inputImage" type="file" image-upload="imagefile"/>
+    <div class="main-infor">
         <br>
-        <br>
-        <br>
-        <button ng-click="$ctrl.onClickImage()">upload</button>
-        <hr>
-        <div ng-repeat="list in $ctrl.imagename track by $index">
-            
-            <img src="{{$ctrl.imageurl}}{{list}}" ng-click="$ctrl.onClickDeleteImage(list, $index)" width="100px" height="100px"/>
+    </div>
+
+    <form class="main-form">
+        <div class="form-group">
+            <label>이름</label>
+            <input class="form-control" type="text" ng-model="boinfor.name" placeholder="이름을 입력하세요." required>
+        </div>
+        <div class="form-group">
+            <label>연락처</label>
+            <input class="form-control" type="text" ng-model="boinfor.phone" placeholder="연락처를 입력하세요." required/>
+        </div>
+        <div class="form-group">
+            <label>매장 이름</label>
+            <input class="form-control" type="text" ng-model="boinfor.mname" placeholder="매장 이름을 입력하세요." required/>
+        </div>
+        <div class="form-group">
+            <label>매장 연락처</label>
+            <input class="form-control" type="text" ng-model="boinfor.mphone" placeholder="매장 연락처를 입력하세요." required/>
+        </div>
+        <div class="form-group">
+                <label>매장 주소</label>
+                <input class="form-control" type="text" ng-model="boinfor.address" placeholder="매장 주소를 입력하세요." required/>
+        </div>
+        <div class="form-group">
+            <label>체험단 명수</label>
+            <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 명수를 적어주세요." required/>
+        </div>
+        <div class="form-group">
+            <label>체험내역</label>
+            <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="체험 내용을 적어주세요." required/>
+        </div>
+        <div class="form-group">
+            <label>기타 문의</label>
+            <textarea class="form-control" rows="3" ng-model="boinfor.comment" style="resize: none">test</textarea>
+        </div>
+        <div class="form-group">
+            <label>매장 이미지 업로드</label>
+            <input id="main-inputImage" type="file" image-upload="imagefile"/>
+            <p class="help-block">이미지를 선택하고 업로드 버튼을 눌러주세요.</p>
+            <button class="btn btn-default btn-block" ng-click="$ctrl.onClickImage()">업로드</button>
+        </div>
+        <div class="form-group" ng-show="$ctrl.imagename.length > 0">
+            <label>이미지 확인</label>
+            <p class="help-block">총 4장의 이미지를 업로드해주세요.</p>
+            <div class="main-upload-container" ng-repeat="list in $ctrl.imagename track by $index"  ng-mouseenter="ishover = !ishover" ng-mouseleave="ishover = !ishover" ng-init="ishover = false">
+                <img class="main-upload-img" src="{{$ctrl.imageurl}}{{list}}"/>
+                <p class="main-upload-text-hover cursor" ng-show="ishover"  ng-click="$ctrl.onClickDeleteImage(list, $index)">클릭하여 삭제</p>
+                <br>
+            </div>
         </div>
         <hr>
-        <button type="submit" ng-click="$ctrl.onClickSubmit(boinfor)">제출</button>
-        
+        <button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.onClickSubmit(boinfor)">제출</button>
+        <br>
     </form>
 </div>

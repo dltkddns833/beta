@@ -1,0 +1,14 @@
+.verify-wrapper{
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.verify-infor{
+    text-align: center;
+    padding-top: 16px;
+}
+
+.verify-wrapper > .verify-form{
+    width: 256px;
+    margin: 0 auto;
+}

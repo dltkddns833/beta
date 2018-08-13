@@ -15,7 +15,10 @@ component('deposit',{
             // Init
 
             // funciton
-            
+            ctrl.onTest = function(msg, type){
+                daydreamshared.showAlert(msg, type);
+            }
+
             /*Initialize*/
             ctrl.$onInit = function () {
 
