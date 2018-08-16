@@ -15,6 +15,8 @@ var upload = multer({storage : storage})
 
 console.log('Mail Query');
 
+// 비동기로 전부 바꿔야 한다!!!!!!!!!!!!!!!!!!!
+
 router.post('/sendMail', function(req, res, next){
     var filePath = './public/uploads/';
     var Transporter = nodemailer.createTransport({
@@ -70,21 +72,22 @@ router.post('/sendMail', function(req, res, next){
     Transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);
+            res.send(400)
         }else {
             console.log('Email sent! : ' + info.response);
             for(var i = 0; i < attch_list.length; i++){
                 fs.unlinkSync(filePath + attch_list[i]);
             }
+            res.send(200);
         }
         Transporter.close();
         
     });
     
-    res.send(200);
         
 });
 
-router.post('/sendImage', upload.single('imagefile'), function(req, res, next){
+router.post('/sendImage', upload.array('imagefile', 4), function(req, res, next){
     res.send(200)
 });
 

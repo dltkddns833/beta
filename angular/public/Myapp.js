@@ -1,6 +1,7 @@
 var Myapp = angular.module('Myapp',[   
     'ngRoute',
     'ngResource',
+    'ngAnimate',
     'ui.bootstrap',
     'ui.router',
     'core',
@@ -50,13 +51,17 @@ config(function($routeProvider, $locationProvider){
 
 Myapp.controller('Mycontroller', function($scope, $rootScope, $state){
     $scope.state = $state;
-    $scope.alert = [];
-    console.log($scope.state);
-
-    $rootScope.onShowAlert = function(msg, type){
-        $scope.alert.push({
-            type : type,
-            msg : msg
+    // Alert
+    $scope.alerts = [];
+    $scope.show_alert = false
+    $scope.$on('showAlert', function(event, data){
+        $scope.show_alert = true;
+        $scope.alerts.push({
+            msg : data.msg,
+            type : data.type
         })
-    }
+    });
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+      };
 });

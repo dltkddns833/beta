@@ -5,32 +5,42 @@
 
     <form class="main-form">
         <div class="form-group">
-            <label>이름</label>
-            <input class="form-control" type="text" ng-model="boinfor.name" placeholder="이름을 입력하세요." required>
+            <label>성함</label>
+            <input class="form-control" type="text" ng-model="boinfor.name" placeholder="예)홍길동" required>
         </div>
         <div class="form-group">
             <label>연락처</label>
-            <input class="form-control" type="text" ng-model="boinfor.phone" placeholder="연락처를 입력하세요." required/>
+            <input class="form-control" type="text" ng-model="boinfor.phone" placeholder="예)01012345678" required/>
         </div>
         <div class="form-group">
-            <label>매장 이름</label>
-            <input class="form-control" type="text" ng-model="boinfor.mname" placeholder="매장 이름을 입력하세요." required/>
+            <label>체험 제공 상품명(매장일 경우 매장이름)</label>
+            <input class="form-control" type="text" ng-model="boinfor.mname" placeholder="예)홍길동맥주집" required/>
         </div>
         <div class="form-group">
-            <label>매장 연락처</label>
-            <input class="form-control" type="text" ng-model="boinfor.mphone" placeholder="매장 연락처를 입력하세요." required/>
+            <label>사업장 연락처</label>
+            <input class="form-control" type="text" ng-model="boinfor.mphone" placeholder="예)021234567" required/>
         </div>
         <div class="form-group">
-                <label>매장 주소</label>
-                <input class="form-control" type="text" ng-model="boinfor.address" placeholder="매장 주소를 입력하세요." required/>
+                <label>사업장 주소</label>
+                <input class="form-control" type="text" ng-model="boinfor.address" placeholder="예)서울시 노원구" required/>
         </div>
-        <div class="form-group">
-            <label>체험단 명수</label>
-            <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 명수를 적어주세요." required/>
+        <div class="form-group" ng-init="boinfor.exnumber = 1">
+            <label>체험단 인원수</label>
+            <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
+            <div>
+                <span class="cursor" ng-click="$ctrl.onClickExnumber(false)">감소</span>
+                <span>{{$ctrl.boinfor.exnumber}}</span>
+                <span class="cursor" ng-click="$ctrl.onClickExnumber(true)">증가</span>
+            </div>
         </div>
         <div class="form-group">
             <label>체험내역</label>
-            <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="체험 내용을 적어주세요." required/>
+            <!-- <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="예)제품 배송, 방문 체험" required/> -->
+            <select class="form-control" ng-init="boinfor.contents = null" ng-model="boinfor.contents" required>
+                <option value="">체험 내역을 선택해주세요</option>
+                <option value="제품 배송">제품 배송</option>
+                <option value="방문 체험">방문 체험</option>
+            </select>
         </div>
         <div class="form-group">
             <label>기타 문의</label>
@@ -38,11 +48,11 @@
         </div>
         <div class="form-group">
             <label>매장 이미지 업로드</label>
-            <input id="main-inputImage" type="file" image-upload="imagefile"/>
+            <input id="main-inputImage" multiple="multiple" type="file" image-upload="imagefile"/>
             <p class="help-block">이미지를 선택하고 업로드 버튼을 눌러주세요.</p>
             <button class="btn btn-default btn-block" ng-click="$ctrl.onClickImage()">업로드</button>
         </div>
-        <div class="form-group" ng-show="$ctrl.imagename.length > 0">
+        <div class="form-group" ng-if="$ctrl.imagename.length > 0">
             <label>이미지 확인</label>
             <p class="help-block">총 4장의 이미지를 업로드해주세요.</p>
             <div class="main-upload-container" ng-repeat="list in $ctrl.imagename track by $index"  ng-mouseenter="ishover = !ishover" ng-mouseleave="ishover = !ishover" ng-init="ishover = false">

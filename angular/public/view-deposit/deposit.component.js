@@ -6,9 +6,10 @@ component('deposit',{
     templateUrl : 'view-deposit/deposit.template.html',
     controller : [
         '$scope', 
+        '$rootScope',
         'daydreamshared',
         'restService',
-        function depositController($scope, daydreamshared, restService){
+        function depositController($scope, $rootScope, daydreamshared, restService){
             var ctrl = this;
             
 
@@ -16,7 +17,11 @@ component('deposit',{
 
             // funciton
             ctrl.onTest = function(msg, type){
-                daydreamshared.showAlert(msg, type);
+                var alert ={
+                    msg : msg,
+                    type : type
+                }
+                $scope.$emit('showAlert', alert)
             }
 
             /*Initialize*/

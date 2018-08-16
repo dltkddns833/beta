@@ -19,18 +19,10 @@ angular.module('core.daydreamshared', [
             $window.location.href = url;
         }
 
-        var showAlert = function(msg, type){
-            $rootScope.type = type;
-            $rootScope.msg = msg;
-            console.log($rootScope)
-            $rootScope.onShowAlert(msg, type)
-        }
-
 
         return {
             hello: hello,
-            goToPage: goToPage,
-            showAlert: showAlert
+            goToPage: goToPage
         };
 
     }

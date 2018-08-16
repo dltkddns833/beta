@@ -14,7 +14,16 @@ component('main',{
         function mainController($scope, daydreamshared, restService, $http, $window){
             var ctrl = this;
             
-            ctrl.boinfor = [];
+            ctrl.boinfor = {
+                name : null,
+                phone : null,
+                mname : null,
+                mphone : null,
+                address : null,
+                exnumber : 1,
+                contents : null,
+                comment : null
+            };
             ctrl.imageurl = "http://"+ $window.location.host + "/image/";
             ctrl.imagename = [];
 
@@ -91,8 +100,14 @@ component('main',{
                     img3 : ctrl.imagename[2],
                     img4 : ctrl.imagename[3]
                 }).$promise.then(function(response){
-                    console.log('Success Send Mail');
                     console.log(response);
+                    console.log(response[0]+response[1]);
+                    if(response[0]+response[1] == 'OK'){
+                        ShowAlert('이메일이 성공적으로 발송되었습니다.', 'success');
+                        // daydreamshared.goToPage(url);
+                    }else{
+                        ShowAlert('이메일 발송에 실패하였습니다.')
+                    }
                 })
             }
 
@@ -100,16 +115,39 @@ component('main',{
                 var file = image_file;
                 var uploadUrl = "/api/v0.1.1/mail/sendImage";
                 var fd = new FormData();
-                fd.append('imagefile', file);
+                var file_size = file.length + ctrl.imagename.length
+                var state = 200;
+
+                if(file_size > 4){
+                    ShowAlert('이미지는 4장만 업로드 할 수 있습니다.');
+                    state = 400;
+                }
+
+                for(var i in file){
+                    for(var j in ctrl.imagename){
+                        if(file[i].name === ctrl.imagename[j]){
+                            ShowAlert('같은 이미지가 존재합니다.');
+                            state = 400;
+                        }
+                    }
+                }
+
+                for(var index = 0; index < $scope.imagefile.length; index++){
+                    fd.append('imagefile', file[index]);
+                }
                 
-        
-                $http.post(uploadUrl,fd, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
-                }).then(function(response){
-                    ctrl.imagename.push($scope.imagefile.name);
-                    document.getElementById("main-inputImage").value = "";
-                })
+                if(state == 200){
+                    $http.post(uploadUrl,fd, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    }).then(function(response){
+                        for(var index = 0; index < $scope.imagefile.length; index++){
+                            ctrl.imagename.push($scope.imagefile[index].name);
+                        }
+                        document.getElementById("main-inputImage").value = "";
+                        $scope.imagefile = null;
+                    })
+                }
             }
 
             var deleteAll = function(){
@@ -118,10 +156,34 @@ component('main',{
                     img : delete_data
                 }).$promise.then(function(response){
                     console.log(response);
+                    ctrl.imagename = [];
                 })
             }
 
+            var ShowAlert = function(msg, type){
+                if(type == null){
+                    type = 'danger'
+                }
+                var alert ={
+                    msg : msg,
+                    type : type
+                }
+                $scope.$emit('showAlert', alert)
+            }
+
             // funciton
+            ctrl.onClickExnumber = function(state){
+                if(state == false){
+                    if(ctrl.boinfor.exnumber - 1 > 0){
+                        ctrl.boinfor.exnumber = ctrl.boinfor.exnumber - 1;
+                    }else{
+                        ShowAlert('체험단은 1명이상 신청해야 합니다.');
+                    }
+                }else{
+                    ctrl.boinfor.exnumber = ctrl.boinfor.exnumber + 1;
+                }
+            }
+
             ctrl.onClickSubmit = function(infor){
                 var req_body = []
                 var err_code = 200;
@@ -130,54 +192,60 @@ component('main',{
 
                 }else{
                     err_code = 0;
-                    console.log('입력필요')
+                    ShowAlert('정보를 입력해주세요.');
                 }
 
                 if(infor.name != null){
                     ctrl.boinfor.name = infor.name
                 }else{
                     err_code = 0;
-                    console.log('이름 입력 필요');
+                    ShowAlert('성함을 입력해주세요.');
                 }
 
                 if(infor.phone != null){
                     ctrl.boinfor.phone = infor.phone
                 }else{
                     err_code = 0;
-                    console.log('번호 입력 필요');
+                    ShowAlert('연락처를 입력해주세요.');
                 }
 
                 if(infor.mname != null){
                     ctrl.boinfor.mname = infor.mname
                 }else{
                     err_code = 0;
-                    console.log('매장이름 입력 필요');
+                    ShowAlert('상품명을 입력해주세요.');
                 }
 
                 if(infor.mphone != null){
                     ctrl.boinfor.mphone = infor.mphone
                 }else{
                     err_code = 0;
-                    console.log('매장 번호 입력 필요');
+                    ShowAlert('연락처를 입력해주세요.');
                 }
 
                 if(infor.address != null){
                     ctrl.boinfor.address = infor.address
                 }else{
                     err_code = 0;
-                    console.log('주소 입력 필요');
+                    ShowAlert('주소를 입력해주세요.');
                 }
-
-                if(infor.exnumber > 0 || ctrl.boinfor.exnumber != null){
-                    ctrl.boinfor.exnumber = infor.exnumber
+                
+                if(infor.contents != null){
+                    ctrl.boinfor.contents = infor.contents
                 }else{
                     err_code = 0;
-                    console.log('체험단 명수 입력 필요');
+                    ShowAlert('체험내역을 선택해주세요.');
+                }
+
+                if(ctrl.boinfor.exnumber != null){
+                    
+                }else{
+                    err_code = 0;
                 }
                 
                 if(ctrl.imagename.length != 4){
                     err_code = 0;
-                    console.log('이미지 4장 업로드 필요');
+                    ShowAlert('이미지를 4장을 업로드 해주세요.');
                 }
 
                 if(infor.comment != null){
@@ -202,7 +270,7 @@ component('main',{
                 var file = $scope.imagefile;
 
                 if(ctrl.imagename.length > 3){
-                    console.log('이미지는 최대 4장입니다.');
+                    ShowAlert('이미지는 4장만 업로드 가능합니다.');
                 }else{
                     sendImage(file);
                 }
@@ -235,13 +303,15 @@ component('main',{
             ctrl.$onInit = function () {
                 $scope.masterLogin = false;
                 deleteAll();
-                setTime = setTimeout(function(){
 
-                    if(ctrl.imagename.length > 0 && isupload == false){
-                        deleteAll();
-                    }
+                // 버그가 많음
+                // setTime = setTimeout(function(){
+                //     if(ctrl.imagename.length > 0 && isupload == false){
+                //         console.log('delete')
+                //         deleteAll();
+                //     }
 
-                }, 10000);
+                // }, 10000);
             };
 
         }]
