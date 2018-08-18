@@ -37,6 +37,11 @@ angular.module('core.daydreamrestApi', [
                 url: '/api/v0.1.1/products/insert'
             },
 
+            putProductsList:{
+                method: 'PUT',
+                url: '/api/v0.1.1/products/putProduct'
+            },
+
             deleteProductsList:{
                 method: 'PUT',
                 url: '/api/v0.1.1/products/delete'

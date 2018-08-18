@@ -21,16 +21,22 @@ component('main',{
                 mphone : null,
                 address : null,
                 exnumber : 1,
-                contents : null,
-                comment : null
+                contents : null
             };
+            ctrl.loginState = false;
+            ctrl.uploadState = false;
+            ctrl.isNewProduct = true;
+            ctrl.isPreProduct = false;
             ctrl.imageurl = "http://"+ $window.location.host + "/image/";
             ctrl.imagename = [];
+            ctrl.productList = [];
+            ctrl.preproductData = [];
 
             // Init
             var url = "deposit"
             var setTime;
             var isupload = false;
+            var productUserId = null;
 
             var putUser = function(req_body){
                 restService.user.getUser({
@@ -40,11 +46,13 @@ component('main',{
                     // 가입되어 있는 회원이 존재
                     if(response.length == 1){
                         req_body.userid = response[0].id;
-                        putProduct(req_body);
+                        productUserId = req_body.userid;
+                        // putProduct(req_body);
+                        getProduct(req_body);
                     }
 
                     // 신규 가입
-                    if(response.length == 0){
+                    else if(response.length == 0){
                         restService.user.putUser({
                         },{
                             name : req_body.name,
@@ -58,35 +66,69 @@ component('main',{
                                 phone : req_body.phone
                             }).$promise.then(function(response){
                                 req_body.userid = response[0].id;
-                                putProduct(req_body);
+                                productUserId = req_body.userid;
+                                // putProduct(req_body);
                             })
                         })
                     }else{
                         console.log('Error Main Component User API');
                     }
-                    sendMail(req_body);
-                    daydreamshared.goToPage(url);
+                    // sendMail(req_body);
+                    // daydreamshared.goToPage(url);
                 })
             }
 
-            var putProduct = function(req_body){
+            var getProduct = function(req_body){
+                restService.products.getProductsList({
+                    userid : req_body.userid
+                }).$promise.then(function(response){
+                    console.log(response);
+                    for(var index in response){
+                        if(response[index].completeAll === 'N')
+                        ctrl.productList.push(response[index]);
+                    }
+                    // ctrl.productList = response;
+                })
+            }
+
+            var postProduct = function(req_body){
                 restService.products.postProductsList({
                 }, {
-                    userid : req_body.userid,
+                    userid : productUserId,
                     mname : req_body.mname,
                     mphone : req_body.mphone,
                     address : req_body.address,
                     exnumber : req_body.exnumber,
-                    contents : req_body.contents,
-                    comment : req_body.comment
+                    contents : req_body.contents
 
                 }).$promise.then(function(response){
                     console.log('Sucess POST Products in Client');
                     console.log(response);
                     ctrl.boinfor = null
-                    alert('Sucess');
+                    // alert('Sucess');
                     
                     // daydreamshared.goToPage(url);
+
+                })
+            }
+
+            var putProduct = function(req_body, id){
+                restService.products.putProductsList({
+
+                }, {
+                    listid : id,
+                    userid : productUserId,
+                    mname : req_body.mname,
+                    mphone : req_body.mphone,
+                    address : req_body.address,
+                    exnumber : req_body.exnumber,
+                    contents : req_body.contents,
+                    deposit : 'N',
+                    completeEx : 'N',
+                    completeAll : 'N'
+                }).$promise.then(function(response){
+                    console.log('Success PUT Products in Client');
+                    console.log(response);
 
                 })
             }
@@ -95,6 +137,11 @@ component('main',{
                 restService.mail.sendMail({
                     name : req_body.name,
                     phone : req_body.phone,
+                    mname : req_body.mname,
+                    mphone : req_body.mphone,
+                    address : req_body.address,
+                    exnumber : req_body.exnumber,
+                    contents : req_body.contents,
                     img1 : ctrl.imagename[0],
                     img2 : ctrl.imagename[1],
                     img3 : ctrl.imagename[2],
@@ -104,7 +151,7 @@ component('main',{
                     console.log(response[0]+response[1]);
                     if(response[0]+response[1] == 'OK'){
                         ShowAlert('이메일이 성공적으로 발송되었습니다.', 'success');
-                        // daydreamshared.goToPage(url);
+                        daydreamshared.goToPage(url);
                     }else{
                         ShowAlert('이메일 발송에 실패하였습니다.')
                     }
@@ -172,8 +219,8 @@ component('main',{
             }
 
             // funciton
-            ctrl.onClickExnumber = function(state){
-                if(state == false){
+            ctrl.onClickExnumber = function(state, num){
+                if(state == false && num == 0){
                     if(ctrl.boinfor.exnumber - 1 > 0){
                         ctrl.boinfor.exnumber = ctrl.boinfor.exnumber - 1;
                     }else{
@@ -182,10 +229,18 @@ component('main',{
                 }else{
                     ctrl.boinfor.exnumber = ctrl.boinfor.exnumber + 1;
                 }
+                if(state == false && num == 1){
+                    if(ctrl.preproductData.exnumber - 1 > 0){
+                        ctrl.preproductData.exnumber = ctrl.preproductData.exnumber - 1;
+                    }else{
+                        ShowAlert('체험단은 1명이상 신청해야 합니다.');
+                    }
+                }else{
+                    ctrl.preproductData.exnumber = ctrl.preproductData.exnumber + 1;
+                }
             }
 
-            ctrl.onClickSubmit = function(infor){
-                var req_body = []
+            ctrl.onClickVerifySubmit = function(infor){
                 var err_code = 200;
 
                 if(infor != null){
@@ -207,6 +262,23 @@ component('main',{
                 }else{
                     err_code = 0;
                     ShowAlert('연락처를 입력해주세요.');
+                }
+
+                if(err_code == 200){
+                    ctrl.loginState = true;
+                    putUser(infor);
+                }
+            }
+
+            ctrl.onClickSubmit = function(infor){
+                var req_body = []
+                var err_code = 200;
+
+                if(infor != null){
+
+                }else{
+                    err_code = 0;
+                    ShowAlert('정보를 입력해주세요.');
                 }
 
                 if(infor.mname != null){
@@ -248,22 +320,27 @@ component('main',{
                     ShowAlert('이미지를 4장을 업로드 해주세요.');
                 }
 
-                if(infor.comment != null){
-                    ctrl.boinfor.comment = infor.comment
-                }else{
-                    ctrl.boinfor.comment = ""
-                }
-
-
                 req_body = ctrl.boinfor;
-
+                console.log(req_body);
                 if(err_code == 200){
                     isupload = true;
-                    // putUser(req_body);
+                    ctrl.uploadState = true;
+
                     sendMail(req_body)
+                    if(ctrl.preproductData.completeAll === 'N'){
+                        console.log('기존내역 업로드')
+                        putProduct(req_body, ctrl.preproductData.id);
+                    }else{
+                        postProduct(req_body);
+                    }
                     alert('신청 완료');
-                    daydreamshared.goToPage(url);
+                    // daydreamshared.goToPage(url);
                 }
+            }
+
+            ctrl.onClickPreProduct = function(data){
+                ctrl.isPreProduct = true;
+                ctrl.preproductData = data;
             }
 
             ctrl.onClickImage = function(){

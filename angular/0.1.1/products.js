@@ -175,8 +175,8 @@ router.post('/insert', function(req, res, next){
         function(connection, nextCallback){
             sqlConnection = connection;
             sqlConnection.query({
-                sql : 'INSERT INTO products (userid, mname, mphone, address, exnumber, contents, comment) VALUES(?, ?, ?, ?, ?, ?, ?)',
-                values : [req.body.userid, req.body.mname ,req.body.mphone, req.body.address, req.body.exnumber, req.body.contents, req.body.comment]
+                sql : 'INSERT INTO products (userid, mname, mphone, address, exnumber, contents) VALUES(?, ?, ?, ?, ?, ?)',
+                values : [req.body.userid, req.body.mname ,req.body.mphone, req.body.address, req.body.exnumber, req.body.contents]
             }, nextCallback);
         }
     ], function(err, result, fields){
@@ -195,6 +195,43 @@ router.post('/insert', function(req, res, next){
 })
 
 // PUT 요청
+router.put('/putProduct', function(req, res, next){
+    var sqlConnection;
+
+    var res_data;
+    var err_status_code = null;
+    var err_data = {
+        reason : null
+    };
+
+    list = req.body;
+    console.log(list);
+
+    async.waterfall([
+        function(nextCallback){
+            pool.getConnection(nextCallback);
+        },
+        function(connection, nextCallback){
+            sqlConnection = connection;
+            sqlConnection.query({
+                sql : 'UPDATE products SET userid = ?, mname = ?, mphone = ?, address = ?, exnumber = ?, contents = ?, deposit = ?, completeEx = ?, completeAll = ? WHERE id = ?',
+                values : [list.userid ,list.mname, list.mphone, list.address, list.exnumber, list.contents, list.deposit, list.completeEx, list.completeAll ,list.listid]
+            }, nextCallback);
+        }
+    ], function(err, result, fields){
+        if(sqlConnection){
+            sqlConnection.release();
+        }
+        if(err){
+            err_data.reason = err;
+            console.log('Error Put Products');
+            console.log(err_data.reason);
+        }
+        res_data = result;
+        res.send(res_data);
+    })
+})
+
 router.put('/delete', function(req, res, next){
     var sqlConnection;
 

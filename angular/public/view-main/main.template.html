@@ -2,67 +2,163 @@
     <div class="main-infor">
         <br>
     </div>
-
-    <form class="main-form">
-        <div class="form-group">
-            <label>성함</label>
-            <input class="form-control" type="text" ng-model="boinfor.name" placeholder="예)홍길동" required>
-        </div>
-        <div class="form-group">
-            <label>연락처</label>
-            <input class="form-control" type="text" ng-model="boinfor.phone" placeholder="예)01012345678" required/>
-        </div>
-        <div class="form-group">
-            <label>체험 제공 상품명(매장일 경우 매장이름)</label>
-            <input class="form-control" type="text" ng-model="boinfor.mname" placeholder="예)홍길동맥주집" required/>
-        </div>
-        <div class="form-group">
-            <label>사업장 연락처</label>
-            <input class="form-control" type="text" ng-model="boinfor.mphone" placeholder="예)021234567" required/>
-        </div>
-        <div class="form-group">
+    <div ng-show="!$ctrl.loginState">
+        <div class="verify-infor">
+            <h3>체험단 신청</h3>
+            </div>
+            <form class="verify-form">
+            <div class="form-group">
+                <label>이름</label>
+                <input class="form-control" type="text" ng-model="maininfor.name"/>
+            </div>
+            <div class="form-group">
+                <label>휴대폰 번호</label>
+                <input class="form-control" type="text" ng-model="maininfor.phone"/>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.onClickVerifySubmit(maininfor)">확인</button>
+        </form>
+    </div>
+    
+    <div ng-show="!$ctrl.uploadState && $ctrl.loginState">
+        <ul class="nav nav-tabs nav-justified">
+            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == true}"><a ng-click="$ctrl.isNewProduct = true">신규등록</a></li>
+            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == false}"><a ng-click="$ctrl.isNewProduct = false">기존내역 등록</a></li>
+        </ul>
+        <br>
+        <!-- 신규매장 -->
+        <form class="main-form" ng-show="$ctrl.isNewProduct">
+            <!-- <div class="form-group">
+                <label>성함</label>
+                <input class="form-control" type="text" ng-model="boinfor.name" placeholder="예)홍길동" required>
+            </div>
+            <div class="form-group">
+                <label>연락처</label>
+                <input class="form-control" type="text" ng-model="boinfor.phone" placeholder="예)01012345678" required/>
+            </div> -->
+            <div class="form-group">
+                <label>체험 제공 상품명(매장일 경우 매장이름)</label>
+                <input class="form-control" type="text" ng-model="boinfor.mname" placeholder="예)홍길동맥주집" required/>
+            </div>
+            <div class="form-group">
+                <label>사업장 연락처</label>
+                <input class="form-control" type="text" ng-model="boinfor.mphone" placeholder="예)021234567" required/>
+            </div>
+            <div class="form-group">
                 <label>사업장 주소</label>
                 <input class="form-control" type="text" ng-model="boinfor.address" placeholder="예)서울시 노원구" required/>
-        </div>
-        <div class="form-group" ng-init="boinfor.exnumber = 1">
-            <label>체험단 인원수</label>
-            <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
-            <div>
-                <span class="cursor" ng-click="$ctrl.onClickExnumber(false)">감소</span>
-                <span>{{$ctrl.boinfor.exnumber}}</span>
-                <span class="cursor" ng-click="$ctrl.onClickExnumber(true)">증가</span>
             </div>
-        </div>
-        <div class="form-group">
-            <label>체험내역</label>
-            <!-- <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="예)제품 배송, 방문 체험" required/> -->
-            <select class="form-control" ng-init="boinfor.contents = null" ng-model="boinfor.contents" required>
-                <option value="">체험 내역을 선택해주세요</option>
-                <option value="제품 배송">제품 배송</option>
-                <option value="방문 체험">방문 체험</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>기타 문의</label>
-            <textarea class="form-control" rows="3" ng-model="boinfor.comment" style="resize: none">test</textarea>
-        </div>
-        <div class="form-group">
-            <label>매장 이미지 업로드</label>
-            <input id="main-inputImage" multiple="multiple" type="file" image-upload="imagefile"/>
-            <p class="help-block">이미지를 선택하고 업로드 버튼을 눌러주세요.</p>
-            <button class="btn btn-default btn-block" ng-click="$ctrl.onClickImage()">업로드</button>
-        </div>
-        <div class="form-group" ng-if="$ctrl.imagename.length > 0">
-            <label>이미지 확인</label>
-            <p class="help-block">총 4장의 이미지를 업로드해주세요.</p>
-            <div class="main-upload-container" ng-repeat="list in $ctrl.imagename track by $index"  ng-mouseenter="ishover = !ishover" ng-mouseleave="ishover = !ishover" ng-init="ishover = false">
-                <img class="main-upload-img" src="{{$ctrl.imageurl}}{{list}}"/>
-                <p class="main-upload-text-hover cursor" ng-show="ishover"  ng-click="$ctrl.onClickDeleteImage(list, $index)">클릭하여 삭제</p>
+            <div class="form-group" ng-init="boinfor.exnumber = 1">
+                <label>체험단 인원수</label>
+                <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
+                <div>
+                    <span class="cursor" ng-click="$ctrl.onClickExnumber(false, 0)">감소</span>
+                    <span>{{$ctrl.boinfor.exnumber}}</span>
+                    <span class="cursor" ng-click="$ctrl.onClickExnumber(true, 0)">증가</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>체험내역</label>
+                <!-- <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="예)제품 배송, 방문 체험" required/> -->
+                <select class="form-control" ng-init="boinfor.contents = null" ng-model="boinfor.contents" required>
+                    <option value="">체험 내역을 선택해주세요</option>
+                    <option value="제품 배송">제품 배송</option>
+                    <option value="방문 체험">방문 체험</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>매장 이미지 업로드</label>
+                <input id="main-inputImage" multiple="multiple" type="file" image-upload="imagefile"/>
+                <p class="help-block">이미지를 선택하고 업로드 버튼을 눌러주세요.</p>
+                <button class="btn btn-default btn-block" ng-click="$ctrl.onClickImage()">업로드</button>
+            </div>
+            <div class="form-group" ng-if="$ctrl.imagename.length > 0">
+                <label>이미지 확인</label>
+                <p class="help-block">총 4장의 이미지를 업로드해주세요.</p>
+                <div class="main-upload-container" ng-repeat="list in $ctrl.imagename track by $index"  ng-mouseenter="ishover = !ishover" ng-mouseleave="ishover = !ishover" ng-init="ishover = false">
+                    <img class="main-upload-img" src="{{$ctrl.imageurl}}{{list}}"/>
+                    <p class="main-upload-text-hover cursor" ng-show="ishover"  ng-click="$ctrl.onClickDeleteImage(list, $index)">클릭하여 삭제</p>
+                    <br>
+                </div>
+            </div>
+            <hr>
+            <button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.onClickSubmit(boinfor)">제출</button>
+            <br>
+        </form>
+
+        <!-- 기존 매장 -->
+        <div ng-show="!$ctrl.isNewProduct">
+            <!-- Product List -->
+            <div class="panel panel-default" ng-repeat="list in $ctrl.productList"  ng-show="!$ctrl.isPreProduct">
+                <div class="panel-body">
+                    <h5>체험제공 상품명 : {{list.mname}}</h5>
+                    <p>사업장 연락처 : {{list.mphone}}</p>
+                    <p>사업장 주소 : {{list.address}}</p>
+                    <p>체험내역 : {{list.contents}}</p>
+                </div>
+                <div class="panel-footer text-right">
+                    <button class="btn btn-default" ng-click="$ctrl.onClickPreProduct(list)">선택</button>
+                </div>
+            </div>
+
+            <!-- 입력 Form -->
+            <form class="main-form" ng-show="$ctrl.isPreProduct">
+                <div class="form-group">
+                    <label>체험 제공 상품명(매장일 경우 매장이름)</label>
+                    <input class="form-control" type="text" ng-model="$ctrl.preproductData.mname" placeholder="예)홍길동맥주집" ng-value="test" required/>
+                </div>
+                <div class="form-group">
+                    <label>사업장 연락처</label>
+                    <input class="form-control" type="text" ng-model="$ctrl.preproductData.mphone" placeholder="예)021234567" required/>
+                </div>
+                <div class="form-group">
+                    <label>사업장 주소</label>
+                    <input class="form-control" type="text" ng-model="$ctrl.preproductData.address" placeholder="예)서울시 노원구" required/>
+                </div>
+                <div class="form-group" ng-init="boinfor.exnumber = 1">
+                    <label>체험단 인원수</label>
+                    <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
+                    <div>
+                        <span class="cursor" ng-click="$ctrl.onClickExnumber(false, 1)">감소</span>
+                        <span>{{$ctrl.preproductData.exnumber}}</span>
+                        <span class="cursor" ng-click="$ctrl.onClickExnumber(true, 1)">증가</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>체험내역</label>
+                    <!-- <input class="form-control" type="text" ng-model="boinfor.contents" placeholder="예)제품 배송, 방문 체험" required/> -->
+                    <p ng-show="$ctrl.preproductData.contents != nul">{{$ctrl.preproductData.contents}} <button class="btn btn-xs btn-default" ng-click="$ctrl.preproductData.contents = null">수정</button></p>
+                    <select class="form-control" ng-show="$ctrl.preproductData.contents == null" ng-model="$ctrl.preproductData.contents" required>
+                        <option value="">체험 내역을 선택해주세요</option>
+                        <option value="제품 배송">제품 배송</option>
+                        <option value="방문 체험">방문 체험</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>매장 이미지 업로드</label>
+                    <input id="main-inputImage" multiple="multiple" type="file" image-upload="imagefile"/>
+                    <p class="help-block">이미지를 선택하고 업로드 버튼을 눌러주세요.</p>
+                    <button class="btn btn-default btn-block" ng-click="$ctrl.onClickImage()">업로드</button>
+                </div>
+                <div class="form-group" ng-if="$ctrl.imagename.length > 0">
+                    <label>이미지 확인</label>
+                    <p class="help-block">총 4장의 이미지를 업로드해주세요.</p>
+                    <div class="main-upload-container" ng-repeat="list in $ctrl.imagename track by $index"  ng-mouseenter="ishover = !ishover" ng-mouseleave="ishover = !ishover" ng-init="ishover = false">
+                        <img class="main-upload-img" src="{{$ctrl.imageurl}}{{list}}"/>
+                        <p class="main-upload-text-hover cursor" ng-show="ishover"  ng-click="$ctrl.onClickDeleteImage(list, $index)">클릭하여 삭제</p>
+                        <br>
+                    </div>
+                </div>
+                <hr>
+                <button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.onClickSubmit($ctrl.preproductData)">제출</button>
                 <br>
-            </div>
+            </form>
+
         </div>
-        <hr>
-        <button class="btn btn-primary btn-block" type="submit" ng-click="$ctrl.onClickSubmit(boinfor)">제출</button>
-        <br>
-    </form>
+    </div>
+
+    <div ng-show="$ctrl.uploadState">
+        <h1>업로드 중입니다.</h1>
+        <p>인터넷 상태에 따라 다소 시간이 걸릴 수 있습니다.</p>
+        <p>창을 끄지 마시고 잠시만 기다려 주세요.</p>
+    </div>
 </div>

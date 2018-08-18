@@ -46,7 +46,7 @@ router.post('/sendMail', function(req, res, next){
     var mailOptions = {
         from : req.body.name + '<dltkddns833@gmail.com>',
         to: 'daydream_bubble@naver.com',
-        subject : 'Test',
+        subject : '체험단 신규 신청 : ' + req.body.mname,
         text : 'Mail Test name : ' + req.body.name + ' phone : ' + req.body.phone,
         attachments : [
             {
