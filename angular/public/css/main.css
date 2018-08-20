@@ -12,6 +12,14 @@
     font-size: 12px;
 }
 
+.main-map{
+    display: none;
+}
+
+.main-map.show-map{
+    display: block;
+}
+
 .main-upload-container{
     position: relative;
 }

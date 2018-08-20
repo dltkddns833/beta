@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var nodemailer = require('nodemailer');
 var multer = require('multer');
+var config = require('../appconfig')
 var storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, './public/uploads/')
@@ -20,10 +21,10 @@ console.log('Mail Query');
 router.post('/sendMail', function(req, res, next){
     var filePath = './public/uploads/';
     var Transporter = nodemailer.createTransport({
-        service : 'Gmail',
+        service : config.nodeMail.mailService,
         auth : {
-            user : 'dltkddns833@gmail.com',
-            pass : '!mufeat0815'
+            user : config.nodeMail.authEmail,
+            pass : config.nodeMail.authPwd
         }
     });
     var img_list = [
@@ -44,10 +45,11 @@ router.post('/sendMail', function(req, res, next){
     }
 
     var mailOptions = {
-        from : req.body.name + '<dltkddns833@gmail.com>',
-        to: 'daydream_bubble@naver.com',
+        from : req.body.name + config.nodeMail.optionForm,
+        to: config.nodeMail.optionTo,
         subject : '체험단 신규 신청 : ' + req.body.mname,
         text : 'Mail Test name : ' + req.body.name + ' phone : ' + req.body.phone,
+        html : '<h1>Fancy Blog 신규 체험단 신청</h1><p>이름 : ' + req.body.name + '</p> <p>전화번호 : ' + req.body.phone + '</p> <p>사업장 : ' + req.body.mname + '</p><p>주소 : ' + req.body.address + '</p><p>체험 인원 : ' + req.body.exnumber + '</p><p>체험내역 : ' + req.body.contents + '</p>',
         attachments : [
             {
                 filename: attch_list[0],

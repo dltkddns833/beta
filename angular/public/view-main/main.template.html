@@ -1,12 +1,18 @@
+<script>
+    
+</script>
+
+
 <div class="main-wrapper">
     <div class="main-infor">
         <br>
     </div>
     <div ng-show="!$ctrl.loginState">
+
         <div class="verify-infor">
             <h3>체험단 신청</h3>
-            </div>
-            <form class="verify-form">
+        </div>
+        <form class="verify-form">
             <div class="form-group">
                 <label>이름</label>
                 <input class="form-control" type="text" ng-model="maininfor.name"/>
@@ -21,8 +27,8 @@
     
     <div ng-show="!$ctrl.uploadState && $ctrl.loginState">
         <ul class="nav nav-tabs nav-justified">
-            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == true}"><a ng-click="$ctrl.isNewProduct = true">신규등록</a></li>
-            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == false}"><a ng-click="$ctrl.isNewProduct = false">기존내역 등록</a></li>
+            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == true}"><a ng-click="$ctrl.onClickPanel()">신규등록</a></li>
+            <li role="presentation" class="cursor" ng-class="{'active' :$ctrl.isNewProduct == false}"><a ng-click="$ctrl.onClickPanel()">기존내역 등록</a></li>
         </ul>
         <br>
         <!-- 신규매장 -->
@@ -45,8 +51,13 @@
             </div>
             <div class="form-group">
                 <label>사업장 주소</label>
-                <input class="form-control" type="text" ng-model="boinfor.address" placeholder="예)서울시 노원구" required/>
+                <input class="form-control" type="button" ng-click="$ctrl.execDaumPostcode('new')" value="우편번호 찾기"><br>
+                <div id="new_address_wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                    <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" ng-click="$ctrl.foldDaumPostcode()" alt="접기 버튼">
+                </div>
+                <input class="form-control" type="text" id="new_address" class="d_form large" placeholder="주소">
             </div>
+            <div class="main-map" ng-class="{'show-map' : $ctrl.isShowMap}" id="new-map" style="width:100%;height:400px;"></div>
             <div class="form-group" ng-init="boinfor.exnumber = 1">
                 <label>체험단 인원수</label>
                 <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
@@ -112,8 +123,14 @@
                 </div>
                 <div class="form-group">
                     <label>사업장 주소</label>
-                    <input class="form-control" type="text" ng-model="$ctrl.preproductData.address" placeholder="예)서울시 노원구" required/>
+                    <!-- <input class="form-control" type="text" ng-model="$ctrl.preproductData.address" placeholder="예)서울시 노원구" required/> -->
+                    <input class="form-control" type="button" ng-click="$ctrl.execDaumPostcode('pre')" value="우편번호 찾기"><br>
+                    <div id="pre_address_wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                        <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" ng-click="$ctrl.foldDaumPostcode()" alt="접기 버튼">
+                    </div>
+                    <input class="form-control" type="text" id="pre_address" class="d_form large" placeholder="주소" value="{{$ctrl.preproductData.address}}">
                 </div>
+                <div id="pre-map" style="width:100%;height:400px;"></div>
                 <div class="form-group" ng-init="boinfor.exnumber = 1">
                     <label>체험단 인원수</label>
                     <!-- <input class="form-control" type="number" ng-model="boinfor.exnumber" placeholder="체험단 인원수를 적어주세요." required/> -->
